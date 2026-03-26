@@ -24,4 +24,14 @@ pool.on("error", (err) => {
   console.error("Unexpected error on idle client", err);
 });
 
+// Test connection on startup
+pool
+  .query("SELECT NOW()")
+  .then(() => {
+    console.log("✓ Database connection test successful");
+  })
+  .catch((err) => {
+    console.error("✗ Database connection test failed:", err.message);
+  });
+
 export default pool;

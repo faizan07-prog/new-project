@@ -56,15 +56,35 @@ async function initializeDatabase() {
     await pool.query(createTableQuery);
     console.log("✓ Database table created successfully");
   } catch (error) {
-    console.error("Error creating table:", error);
+    console.error("✗ Error creating table:", error.message);
+    console.error("Full error:", error);
   }
 }
+
+// Database status endpoint (useful for debugging)
+app.get("/api/db-status", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW()");
+    res.status(200).json({
+      status: "connected",
+      time: result.rows[0].now,
+      message: "Database connection successful",
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "disconnected",
+      error: error.message,
+      message: "Database connection failed",
+    });
+  }
+});
 
 // Start server
 app.listen(PORT, async () => {
   await initializeDatabase();
   console.log(`\n🚀 Server running on http://localhost:${PORT}`);
   console.log(`📧 Contact endpoint: http://localhost:${PORT}/api/contact`);
+  console.log(`🔍 DB Status endpoint: http://localhost:${PORT}/api/db-status`);
 });
 
 // Graceful shutdown

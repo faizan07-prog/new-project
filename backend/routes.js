@@ -24,7 +24,8 @@ router.post("/contact", async (req, res) => {
       id: result.rows[0].id,
     });
   } catch (error) {
-    console.error("Database error:", error);
+    console.error("Database error:", error.message, error.code);
+    console.error("Full error:", error);
     res
       .status(500)
       .json({ error: "Failed to send message. Please try again later." });
