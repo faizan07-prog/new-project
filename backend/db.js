@@ -1,0 +1,27 @@
+import pkg from "pg";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const { Pool } = pkg;
+
+// Database connection pool
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  // For production on Render, SSL is required
+  ssl:
+    process.env.NODE_ENV === "production"
+      ? { rejectUnauthorized: false }
+      : false,
+});
+
+// Test connection
+pool.on("connect", () => {
+  console.log("✓ Connected to PostgreSQL database");
+});
+
+pool.on("error", (err) => {
+  console.error("Unexpected error on idle client", err);
+});
+
+export default pool;
