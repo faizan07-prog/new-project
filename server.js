@@ -25,8 +25,8 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from frontend directory
-app.use(express.static(path.join(__dirname, "frontend")));
+// Serve static files from project root (index and assets are in root)
+app.use(express.static(__dirname));
 
 // API Routes
 app.use("/api", routes);
@@ -38,7 +38,7 @@ app.get("/health", (req, res) => {
 
 // Serve index.html for all other routes (SPA support)
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend", "index.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 // Initialize database tables
