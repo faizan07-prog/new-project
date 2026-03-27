@@ -54,7 +54,7 @@ header {
 section {
   max-width: 1200px;
   margin: 120px auto 60px;
-  padding: 60px 6%;
+  padding: 60px 20px;
   border-radius: 16px;
   background: #fff;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
